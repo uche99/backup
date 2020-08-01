@@ -47,7 +47,7 @@ maps=[
  '01110011', '01100001', '01110110']
 def settings(path,value):
   if not os.path.isfile(path):
-      print 'bubg mobile not install'
+      print 'pubg mobile not install'
       return
   fp=open(path,'rb+')
   data=fp.read()
