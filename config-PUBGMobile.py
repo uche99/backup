@@ -302,6 +302,24 @@ if __name__=="__main__":
         android.dialogShow()
         time.sleep(2)
         android.dialogDismiss()
+    def CreateAlert(title,msg):
+        android.dialogCreateAlert(title,msg)
+        android.dialogSetNegativeButtonText("Cancel")
+        android.dialogSetPositiveButtonText("Ok")
+        android.dialogShow()
+        response=android.dialogGetResponse().result
+        android.dialogDismiss()
+        
+        if(response["which"]=="positive"):
+            data=android.getLaunchableApplications()
+            for name in data[1]:
+                    if name=="PUBG MOBILE":
+                        print 'opening pubg mobile'
+                        time.sleep(2)
+                        android.startActivity("android.intent.action.MAIN", None, None, None, False,"com.tencent.ig", data[1][name])
+        if(response["which"]=="negative"):
+            show("Launch Cancel")
+        
     def createDialog():
         info="                          LEVEL INFO\n\n       4=30fps 5=40fps 6=60fps 7=90fps"
         android.dialogCreateInput("FPS Level",info, defaultText="%s"%FPSLevel,inputType="number")
@@ -315,12 +333,13 @@ if __name__=="__main__":
            if int(response["value"]) in [4,5,6,7]:
                config=settings(''.join([chr(i) for i in conv]),int(response["value"]))
                gfx.set_fps_all({4:30,5:45,6:60,7:90}[int(response["value"])])
-               print '\n'*5
                if (config[0]):
         	          show(config[1])
                save=gfx.save_config()
                if(save[0]):
                    show(save[1])
+               CreateAlert("PUBG MOBILE","open pubg mobile ?")
+
            else:
                android.dialogCreateAlert("Info","please a insert valid Level")
                android.dialogShow()
